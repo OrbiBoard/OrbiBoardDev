@@ -49,10 +49,10 @@ lines.forEach(line => {
         counter = 1;
         newLines.push(line);
     } 
-    // Check for numbered list item like "1. Item"
-    else if (/^\d+\./.test(trimmedLine)) {
-        // Replace the number with the current counter, preserving leading whitespace
-        const newLine = line.replace(/^(\s*)\d+\./, `$1${counter}.`);
+    // Check for numbered list item like "1. Item" (requires space after dot)
+    else if (/^\d+\.\s/.test(trimmedLine)) {
+        // Replace the number with the current counter, preserving leading whitespace and space after dot
+        const newLine = line.replace(/^(\s*)(\d+)\.\s/, `$1${counter}. `);
         newLines.push(newLine);
         counter++;
     } else {
