@@ -1,7 +1,7 @@
 {
   "scripts": {
     "reorder-changelog": "node reorder_changelog.js",
-    "start": "cd OrbiBoard ; npm run start"
+    "start": "cd ./OrbiBoard ; npm run start"
   },
   "dependencies": {
     "pinyin-pro": "^3.28.0"
