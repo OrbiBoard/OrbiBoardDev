@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .clock-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #clockCanvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="clock-container">
+    <canvas id="clockCanvas"></canvas>
+  </div>
+  <script>
+    const { ipcRenderer } = require('electron');
+    let config = { 
+      showNumbers: true,
+      showTicks: true,
+      showSecondsHand: true,
+      transparentBg: true,
+      theme: 'dark', 
+      color: '#ffffff',
+      clockSize: 180
+    };
+
+    const canvas = document.getElementById('clockCanvas');
+    const ctx = canvas.getContext('2d');
+    let animationId = null;
+
+    function drawClock() {
+      const now = new Date();
+      const hours = now.getHours() % 12;
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const milliseconds = now.getMilliseconds();
+
+      const size = config.clockSize;
+      const centerX = size / 2;
+      const centerY = size / 2;
+      const radius = size / 2 - 10;
+
+      canvas.width = size;
+      canvas.height = size;
+
+      const isDefaultLightColor = (c) => !c || c === '#333333' || c === '#333';
+      const isDefaultDarkColor = (c) => !c || c === '#ffffff' || c === '#fff';
+
+      let bgColor, faceColor, tickColor, numberColor, hourHandColor, minuteHandColor, secondHandColor, centerColor;
+
+      if (config.theme === 'light') {
+        bgColor = config.transparentBg ? 'transparent' : 'rgba(255, 255, 255, 0.9)';
+        faceColor = config.transparentBg ? 'rgba(245, 245, 245, 0.3)' : '#f5f5f5';
+        tickColor = '#333';
+        numberColor = '#333';
+        hourHandColor = '#1a1a1a';
+        minuteHandColor = '#333';
+        secondHandColor = '#e53935';
+        centerColor = '#333';
+        if (!isDefaultDarkColor(config.color)) {
+          tickColor = config.color;
+          numberColor = config.color;
+          hourHandColor = config.color;
+          minuteHandColor = config.color;
+        }
+      } else {
+        bgColor = config.transparentBg ? 'transparent' : 'rgba(0, 0, 0, 0.6)';
+        faceColor = config.transparentBg ? 'rgba(26, 26, 26, 0.3)' : '#1a1a1a';
+        tickColor = '#fff';
+        numberColor = '#fff';
+        hourHandColor = '#fff';
+        minuteHandColor = '#e0e0e0';
+        secondHandColor = '#ff5252';
+        centerColor = '#fff';
+        if (!isDefaultLightColor(config.color)) {
+          tickColor = config.color;
+          numberColor = config.color;
+          hourHandColor = config.color;
+          minuteHandColor = config.color;
+        }
+      }
+
+      document.body.style.background = bgColor;
+
+      ctx.clearRect(0, 0, size, size);
+
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+      ctx.fillStyle = faceColor;
+      ctx.fill();
+      ctx.strokeStyle = tickColor;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      if (config.showTicks) {
+        for (let i = 0; i < 60; i++) {
+          const angle = (i * 6 - 90) * Math.PI / 180;
+          const isHour = i % 5 === 0;
+          const innerRadius = radius - (isHour ? 15 : 8);
+          const outerRadius = radius - 3;
+          
+          ctx.beginPath();
+          ctx.moveTo(
+            centerX + innerRadius * Math.cos(angle),
+            centerY + innerRadius * Math.sin(angle)
+          );
+          ctx.lineTo(
+            centerX + outerRadius * Math.cos(angle),
+            centerY + outerRadius * Math.sin(angle)
+          );
+          ctx.strokeStyle = tickColor;
+          ctx.lineWidth = isHour ? 3 : 1;
+          ctx.stroke();
+        }
+      }
+
+      if (config.showNumbers) {
+        ctx.font = `bold ${radius * 0.15}px 'Segoe UI', sans-serif`;
+        ctx.fillStyle = numberColor;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        for (let i = 1; i <= 12; i++) {
+          const angle = (i * 30 - 90) * Math.PI / 180;
+          const numRadius = radius - 30;
+          const x = centerX + numRadius * Math.cos(angle);
+          const y = centerY + numRadius * Math.sin(angle);
+          ctx.fillText(i.toString(), x, y);
+        }
+      }
+
+      const smoothSeconds = seconds + milliseconds / 1000;
+      const smoothMinutes = minutes + smoothSeconds / 60;
+      const smoothHours = hours + smoothMinutes / 60;
+
+      const hourAngle = (smoothHours * 30 - 90) * Math.PI / 180;
+      const hourHandLength = radius * 0.5;
+      ctx.beginPath();
+      ctx.moveTo(centerX, centerY);
+      ctx.lineTo(
+        centerX + hourHandLength * Math.cos(hourAngle),
+        centerY + hourHandLength * Math.sin(hourAngle)
+      );
+      ctx.strokeStyle = hourHandColor;
+      ctx.lineWidth = 6;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+
+      const minuteAngle = (smoothMinutes * 6 - 90) * Math.PI / 180;
+      const minuteHandLength = radius * 0.7;
+      ctx.beginPath();
+      ctx.moveTo(centerX, centerY);
+      ctx.lineTo(
+        centerX + minuteHandLength * Math.cos(minuteAngle),
+        centerY + minuteHandLength * Math.sin(minuteAngle)
+      );
+      ctx.strokeStyle = minuteHandColor;
+      ctx.lineWidth = 4;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+
+      if (config.showSecondsHand) {
+        const secondAngle = (smoothSeconds * 6 - 90) * Math.PI / 180;
+        const secondHandLength = radius * 0.8;
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(
+          centerX + secondHandLength * Math.cos(secondAngle),
+          centerY + secondHandLength * Math.sin(secondAngle)
+        );
+        ctx.strokeStyle = secondHandColor;
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, 6, 0, 2 * Math.PI);
+      ctx.fillStyle = centerColor;
+      ctx.fill();
+
+      animationId = requestAnimationFrame(drawClock);
+    }
+
+    function applyConfig(cfg) {
+      if (!cfg) return;
+      config = { ...config, ...cfg };
+      
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+      drawClock();
+    }
+
+    ipcRenderer.on('config-updated', (event, newConfig) => {
+      applyConfig(newConfig);
+    });
+    
+    drawClock();
+  </script>
+</body>
+</html>

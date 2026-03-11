@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+      overflow: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+    .clock-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    #clock {
+      font-size: 120px;
+      font-weight: 200;
+      letter-spacing: 4px;
+      line-height: 1;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    #seconds {
+      font-size: 48px;
+      font-weight: 200;
+      opacity: 0.7;
+      margin-top: 5px;
+    }
+    .date-row {
+      display: flex;
+      gap: 20px;
+      margin-top: 15px;
+      font-size: 24px;
+      font-weight: 300;
+      opacity: 0.85;
+    }
+    #weekday {
+      opacity: 0.9;
+    }
+    #date {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="clock-wrapper">
+    <div id="clock">00:00</div>
+    <div id="seconds"></div>
+    <div class="date-row">
+      <span id="weekday"></span>
+      <span id="date"></span>
+    </div>
+  </div>
+  <script>
+    const { ipcRenderer } = require('electron');
+    let config = { 
+      showSeconds: true, 
+      showDate: true,
+      showWeekday: true,
+      transparentBg: true,
+      theme: 'dark', 
+      color: '#ffffff',
+      fontSize: 120
+    };
+
+    function updateTime() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+      
+      document.getElementById('clock').innerText = `${hours}:${minutes}`;
+      
+      if (config.showSeconds) {
+        document.getElementById('seconds').innerText = seconds;
+        document.getElementById('seconds').style.display = 'block';
+      } else {
+        document.getElementById('seconds').style.display = 'none';
+      }
+      
+      if (config.showWeekday) {
+        const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+        document.getElementById('weekday').innerText = weekdays[now.getDay()];
+        document.getElementById('weekday').style.display = 'inline';
+      } else {
+        document.getElementById('weekday').style.display = 'none';
+      }
+      
+      if (config.showDate) {
+        const year = now.getFullYear();
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const day = now.getDate().toString().padStart(2, '0');
+        document.getElementById('date').innerText = `${year}年${month}月${day}日`;
+        document.getElementById('date').style.display = 'inline';
+      } else {
+        document.getElementById('date').style.display = 'none';
+      }
+    }
+
+    function applyConfig(cfg) {
+      if (!cfg) return;
+      config = { ...config, ...cfg };
+      
+      const body = document.body;
+      const clock = document.getElementById('clock');
+      
+      const isDefaultLightColor = (c) => !c || c === '#333333' || c === '#333';
+      const isDefaultDarkColor = (c) => !c || c === '#ffffff' || c === '#fff';
+
+      if (config.transparentBg) {
+        body.style.background = 'transparent';
+      } else {
+        if (config.theme === 'light') {
+          body.style.background = 'rgba(255, 255, 255, 0.95)';
+        } else {
+          body.style.background = 'rgba(0, 0, 0, 0.8)';
+        }
+      }
+
+      if (config.theme === 'light') {
+        if (isDefaultDarkColor(config.color)) { 
+          body.style.color = '#1a1a1a';
+        } else {
+          body.style.color = config.color;
+        }
+        clock.style.textShadow = '0 4px 20px rgba(0,0,0,0.1)';
+      } else {
+        if (isDefaultLightColor(config.color)) { 
+          body.style.color = '#ffffff';
+        } else {
+          body.style.color = config.color;
+        }
+        clock.style.textShadow = '0 4px 20px rgba(0,0,0,0.5)';
+      }
+
+      if (config.fontSize) {
+        clock.style.fontSize = `${config.fontSize}px`;
+        document.getElementById('seconds').style.fontSize = `${config.fontSize * 0.4}px`;
+        document.querySelector('.date-row').style.fontSize = `${config.fontSize * 0.2}px`;
+      }
+      
+      updateTime();
+    }
+
+    ipcRenderer.on('config-updated', (event, newConfig) => {
+      applyConfig(newConfig);
+    });
+    
+    setInterval(updateTime, 1000);
+    updateTime();
+    applyConfig(config);
+  </script>
+</body>
+</html>

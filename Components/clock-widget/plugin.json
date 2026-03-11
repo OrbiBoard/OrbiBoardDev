@@ -1,0 +1,12 @@
+{
+  "id": "clock-widget",
+  "name": "时钟组件",
+  "icon": "ri-time-line",
+  "version": "2.0.0",
+  "type": "plugin",
+  "author": "OrbiBoard",
+  "description": "多种样式的时钟组件集合：数字时钟、超大时钟、模拟时钟",
+  "group": "desktop_widget",
+  "componentsDir": "widgets",
+  "enabled": true
+}

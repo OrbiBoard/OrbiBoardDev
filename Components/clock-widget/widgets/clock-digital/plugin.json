@@ -1,0 +1,54 @@
+{
+  "id": "clock-digital",
+  "name": "数字时钟",
+  "icon": "ri-digital-line",
+  "version": "1.0.0",
+  "type": "component",
+  "author": "OrbiBoard",
+  "entry": "index.html",
+  "description": "简洁的数字时钟，显示时间和日期",
+  "group": "desktop_widget",
+  "recommendedSize": {
+    "width": 300,
+    "height": 120
+  },
+  "configSchema": {
+    "transparentBg": {
+      "type": "boolean",
+      "label": "透明背景 (Transparent Background)",
+      "default": true
+    },
+    "theme": {
+      "type": "select",
+      "label": "主题 (Theme)",
+      "default": "dark",
+      "options": [
+        { "label": "浅色 (Light)", "value": "light" },
+        { "label": "深色 (Dark)", "value": "dark" }
+      ]
+    },
+    "fontSize": {
+      "type": "range",
+      "label": "字体大小 (Font Size)",
+      "default": 48,
+      "min": 24,
+      "max": 96,
+      "step": 2
+    },
+    "showSeconds": {
+      "type": "boolean",
+      "label": "显示秒 (Show Seconds)",
+      "default": true
+    },
+    "showDate": {
+      "type": "boolean",
+      "label": "显示日期 (Show Date)",
+      "default": true
+    },
+    "color": {
+      "type": "color",
+      "label": "颜色 (Color)",
+      "default": "#ffffff"
+    }
+  }
+}

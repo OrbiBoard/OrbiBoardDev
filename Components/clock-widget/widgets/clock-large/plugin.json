@@ -1,0 +1,65 @@
+{
+  "id": "clock-large",
+  "name": "超大时钟",
+  "icon": "ri-time-line",
+  "version": "1.0.0",
+  "type": "component",
+  "author": "OrbiBoard",
+  "entry": "index.html",
+  "description": "超大字体时钟，适合全屏展示或大屏显示",
+  "group": "desktop_widget",
+  "recommendedSize": {
+    "width": 600,
+    "height": 200
+  },
+  "configSchema": {
+    "transparentBg": {
+      "type": "boolean",
+      "label": "透明背景 (Transparent Background)",
+      "default": true
+    },
+    "theme": {
+      "type": "select",
+      "label": "主题 (Theme)",
+      "default": "dark",
+      "options": [
+        {
+          "label": "浅色 (Light)",
+          "value": "light"
+        },
+        {
+          "label": "深色 (Dark)",
+          "value": "dark"
+        }
+      ]
+    },
+    "showSeconds": {
+      "type": "boolean",
+      "label": "显示秒 (Show Seconds)",
+      "default": true
+    },
+    "showDate": {
+      "type": "boolean",
+      "label": "显示日期 (Show Date)",
+      "default": true
+    },
+    "showWeekday": {
+      "type": "boolean",
+      "label": "显示星期 (Show Weekday)",
+      "default": true
+    },
+    "fontSize": {
+      "type": "range",
+      "label": "字体大小 (Font Size)",
+      "default": 120,
+      "min": 60,
+      "max": 300,
+      "step": 10
+    },
+    "color": {
+      "type": "color",
+      "label": "颜色 (Color)",
+      "default": "#ffffff"
+    }
+  }
+}

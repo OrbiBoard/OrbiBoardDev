@@ -1,0 +1,90 @@
+[submodule "OrbiBoard"]
+	path = OrbiBoard
+	url = https://github.com/OrbiBoard/OrbiBoard
+[submodule "Auxiliary/Market-Server"]
+	path = Auxiliary/Market-Server
+	url = https://github.com/OrbiBoard/Market-Server
+[submodule "Auxiliary/Wordbank-Server"]
+	path = Auxiliary/Wordbank-Server
+	url = https://github.com/OrbiBoard/Wordbank-Server
+[submodule "Components/desktop-launcher"]
+	path = Components/desktop-launcher
+	url = https://github.com/OrbiBoard/desktop-launcher
+[submodule "Components/desktop-system-status"]
+	path = Components/desktop-system-status
+	url = https://github.com/PYLXU/desktop-system-status.git
+[submodule "Components/homework-board"]
+	path = Components/homework-board
+	url = https://github.com/OrbiBoard/homework-board
+[submodule "Components/wandering-earth-countdown"]
+	path = Components/wandering-earth-countdown
+	url = https://github.com/PYLXU/wandering-earth-countdown.git
+[submodule "Plugins/clock-timer"]
+	path = Plugins/clock-timer
+	url = https://github.com/PYLXU/clock-timer.git
+[submodule "Plugins/desktop-widgets"]
+	path = Plugins/desktop-widgets
+	url = https://github.com/OrbiBoard/desktop-widgets
+[submodule "Plugins/duty-easy"]
+	path = Plugins/duty-easy
+	url = https://github.com/PYLXU/duty-easy.git
+[submodule "Plugins/example-plugin"]
+	path = Plugins/example-plugin
+	url = https://github.com/PYLXU/example-plugin.git
+[submodule "Plugins/morning-reading"]
+	path = Plugins/morning-reading
+	url = https://github.com/PYLXU/morning-reading.git
+[submodule "Plugins/multiword"]
+	path = Plugins/multiword
+	url = https://github.com/PYLXU/multiword.git
+[submodule "Plugins/music-radio"]
+	path = Plugins/music-radio
+	url = https://github.com/PYLXU/music-radio.git
+[submodule "Plugins/music-source-bili"]
+	path = Plugins/music-source-bili
+	url = https://github.com/PYLXU/music-source-bili.git
+[submodule "Plugins/music-source-kuwo"]
+	path = Plugins/music-source-kuwo
+	url = https://github.com/PYLXU/music-source-kuwo.git
+[submodule "Plugins/notify-plugin"]
+	path = Plugins/notify-plugin
+	url = https://github.com/PYLXU/notify-plugin.git
+[submodule "Plugins/profiles-seating"]
+	path = Plugins/profiles-seating
+	url = https://github.com/PYLXU/profiles-seating.git
+[submodule "Plugins/profiles-selector"]
+	path = Plugins/profiles-selector
+	url = https://github.com/PYLXU/profiles-selector.git
+[submodule "Plugins/profiles-students"]
+	path = Plugins/profiles-students
+	url = https://github.com/PYLXU/profiles-students.git
+[submodule "Plugins/rollcall-random"]
+	path = Plugins/rollcall-random
+	url = https://github.com/PYLXU/rollcall-random.git
+[submodule "Plugins/screen-annotate"]
+	path = Plugins/screen-annotate
+	url = https://github.com/OrbiBoard/screen-annotate
+[submodule "Plugins/screen-compass"]
+	path = Plugins/screen-compass
+	url = https://github.com/PYLXU/screen-compass.git
+[submodule "Plugins/service-toplayer"]
+	path = Plugins/service-toplayer
+	url = https://github.com/OrbiBoard/service-toplayer.git
+[submodule "Plugins/service-weather"]
+	path = Plugins/service-weather
+	url = https://github.com/OrbiBoard/service-weather
+[submodule "Plugins/sidebar-top-status"]
+	path = Plugins/sidebar-top-status
+	url = https://github.com/OrbiBoard/sidebar-top-status.git
+[submodule "Plugins/smart-listening"]
+	path = Plugins/smart-listening
+	url = https://github.com/PYLXU/smart-listening.git
+[submodule "Plugins/ui-lowbar"]
+	path = Plugins/ui-lowbar
+	url = https://github.com/PYLXU/ui-lowbar.git
+[submodule "Plugins/ui-lowbar-caller"]
+	path = Plugins/ui-lowbar-caller
+	url = https://github.com/PYLXU/ui-lowbar-caller.git
+[submodule "Plugins/vote-statistics"]
+	path = Plugins/vote-statistics
+	url = https://github.com/PYLXU/vote-statistics.git

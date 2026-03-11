@@ -1,0 +1,59 @@
+{
+  "id": "clock-analog",
+  "name": "模拟时钟",
+  "icon": "ri-clock-line",
+  "version": "1.0.0",
+  "type": "component",
+  "author": "OrbiBoard",
+  "entry": "index.html",
+  "description": "经典指针式模拟时钟",
+  "group": "desktop_widget",
+  "recommendedSize": {
+    "width": 200,
+    "height": 200
+  },
+  "configSchema": {
+    "transparentBg": {
+      "type": "boolean",
+      "label": "透明背景 (Transparent Background)",
+      "default": true
+    },
+    "theme": {
+      "type": "select",
+      "label": "主题 (Theme)",
+      "default": "dark",
+      "options": [
+        { "label": "浅色 (Light)", "value": "light" },
+        { "label": "深色 (Dark)", "value": "dark" }
+      ]
+    },
+    "showNumbers": {
+      "type": "boolean",
+      "label": "显示数字 (Show Numbers)",
+      "default": true
+    },
+    "showTicks": {
+      "type": "boolean",
+      "label": "显示刻度 (Show Ticks)",
+      "default": true
+    },
+    "showSecondsHand": {
+      "type": "boolean",
+      "label": "显示秒针 (Show Seconds Hand)",
+      "default": true
+    },
+    "clockSize": {
+      "type": "range",
+      "label": "时钟大小 (Clock Size)",
+      "default": 180,
+      "min": 80,
+      "max": 400,
+      "step": 10
+    },
+    "color": {
+      "type": "color",
+      "label": "颜色 (Color)",
+      "default": "#ffffff"
+    }
+  }
+}
